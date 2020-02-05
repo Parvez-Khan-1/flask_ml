@@ -1,0 +1,6 @@
+version: '2'
+services:
+    flask_ml:
+        build: .
+        ports:
+            - "5000:5000"

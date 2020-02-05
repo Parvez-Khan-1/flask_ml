@@ -1,0 +1,13 @@
+{
+  "pretrained_vectors":null,
+  "maxout_pieces":2,
+  "bilstm_depth":0,
+  "beam_width":1,
+  "hidden_depth":1,
+  "beam_density":0.0,
+  "beam_update_prob":1.0,
+  "cnn_maxout_pieces":3,
+  "hidden_width":64,
+  "nr_class":5,
+  "token_vector_width":96
+}
