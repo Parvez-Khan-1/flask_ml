@@ -1,6 +1,8 @@
-import spacy
+"""
+this module contains functions to train a NER model using spacy.
+"""
 import random
-import os
+import spacy
 
 TRAIN_DATA = [('what is the price of polo?', {'entities': [(21, 25, 'PrdName')]}),
               ('what is the price of ball?', {'entities': [(21, 25, 'PrdName')]}),
@@ -25,6 +27,12 @@ TRAIN_DATA = [('what is the price of polo?', {'entities': [(21, 25, 'PrdName')]}
 
 
 def training(training_data, iterations):
+    """
+    this funtion trains a custom NER model on the given training data for given iterations
+    :param training_data: list
+    :param iterations: int
+    :return:
+    """
     nlp = spacy.blank('en')  # create blank Language class
     # create the built-in pipeline components and add them to the pipeline
     # nlp.create_pipe works for built-ins that are registered with spaCy
@@ -57,12 +65,19 @@ def training(training_data, iterations):
 
 
 def save_model(model):
-    # Save our trained Model
+    """
+    this functions saves the given ner model to disk
+    :param model: spacy ner model
+    :return:
+    """
     model.to_disk("../model/custom_ner_model")
 
 
 def test_model():
-    # Test your model
+    """
+    Its quick test for NER model
+    :return:
+    """
     test_text = "what is the price of jug?"
     model = spacy.load("../model/custom_ner_model")
     doc = model(test_text)
@@ -71,12 +86,18 @@ def test_model():
 
 
 def convert_data(data):
+    """
+    This function converts the raw training data into Spacy compatible format
+    :param data: list
+    :return: list
+    """
     training_data = []
     for record in data:
         entities = record.get('entities')
         converted_entities = []
         for entity in entities:
-            converted_entities.append((entity.get('start_offset'), entity.get('end_offset'), entity.get('entity_name')))
+            converted_entities.append((entity.get('start_offset'), entity.get('end_offset'),
+                                       entity.get('entity_name')))
 
         training_data.append((record.get('text'), {'entities': converted_entities}))
     return training_data

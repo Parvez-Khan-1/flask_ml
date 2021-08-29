@@ -1,8 +1,13 @@
+"""
+Its a main module which contains all endpoints for the flask-ml repo
+"""
+
+from flask import Flask, request, jsonify
+from flasgger import Swagger
 from src import constant
 from src import predict
 from src import train
-from flask import Flask, request, jsonify
-from flasgger import Swagger
+
 
 app = Flask(__name__)
 Swagger(app)
@@ -38,8 +43,7 @@ def make_prediction():
     prediction = predict.predict_named_entities(text)
     if prediction is not None:
         return jsonify(prediction)
-    else:
-        return jsonify("Sorry Machine Learning Wont be able to identify Named Entities in given text"), 500
+    return jsonify("Sorry Machine Learning Wont be able " "to identify Named Entities in given text"), 500
 
 
 @app.route("/predict_pretrained", methods=['POST'])
@@ -57,9 +61,7 @@ def make_pretrained_prediction():
     prediction = predict.predict_named_entities_from_pre_trained_model(text)
     if prediction is not None:
         return jsonify(prediction)
-    else:
-        return jsonify("Sorry Machine Learning Wont be able to identify Named Entities in given text"), 500
-
+    return jsonify("Sorry Machine Learning Wont be able to identify Named Entities in given text"), 500
 
 @app.route("/train", methods=['POST'])
 def train_model():
@@ -84,7 +86,9 @@ def train_model():
 
     # Save a Model
     train.save_model(custom_train_model)
-    return jsonify({"message": constant.TRAINING_MESSAGE, "evaluation_metrics": ["You will soon receive the evaluation metrics."]})
+    return jsonify(
+        {"message": constant.TRAINING_MESSAGE,
+         "evaluation_metrics": ["You will soon receive the evaluation metrics."]})
 
 
 if __name__ == '__main__':
